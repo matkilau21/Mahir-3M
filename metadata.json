@@ -1,0 +1,6 @@
+{
+  "name": "Misi Mahir 3M - Membaca, Menulis & Mengira",
+  "description": "Aplikasi gamifikasi pendidikan interaktif dwibahasa untuk menguasai kemahiran 3M (Membaca, Menulis, Mengira) dengan audio, muzik ceria, papan pendahulu, profil murid dan sistem lencana.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
