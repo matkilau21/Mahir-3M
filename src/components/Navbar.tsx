@@ -5,10 +5,6 @@ import {
   Calculator, 
   MapPin, 
   Trophy, 
-  User, 
-  Volume2, 
-  VolumeX, 
-  Music, 
   Flame, 
   Coins, 
   Star, 
@@ -18,6 +14,7 @@ import {
 import { Language, MainTab, UserProfile } from '../types';
 import { getAvatarById } from '../data/avatarsData';
 import { soundService } from '../services/soundService';
+import { AudioController } from './AudioController';
 
 interface NavbarProps {
   currentTab: MainTab;
@@ -40,21 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenMissions,
   unclaimedMissionsCount,
 }) => {
-  const [bgmActive, setBgmActive] = React.useState(soundService.getIsBgmPlaying());
-  const [sfxActive, setSfxActive] = React.useState(soundService.getSfxEnabled());
   const avatar = getAvatarById(profile.avatarId);
-
-  const handleToggleBgm = () => {
-    const active = soundService.toggleBgm();
-    setBgmActive(active);
-  };
-
-  const handleToggleSfx = () => {
-    const next = !sfxActive;
-    soundService.setSfxEnabled(next);
-    setSfxActive(next);
-    if (next) soundService.playPop();
-  };
 
   const navItems = [
     {
@@ -180,30 +163,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </button>
 
-          {/* Audio Controls */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
-            {/* BGM Toggle */}
-            <button
-              onClick={handleToggleBgm}
-              title={bgmActive ? (lang === 'ms' ? 'Matikan Muzik' : 'Mute Music') : (lang === 'ms' ? 'Pasang Muzik Ceria' : 'Play Cheerful BGM')}
-              className={`p-1.5 rounded-lg transition-colors ${
-                bgmActive ? 'bg-amber-400 text-white shadow-xs' : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              <Music className={`w-3.5 h-3.5 ${bgmActive ? 'animate-pulse' : ''}`} />
-            </button>
-
-            {/* SFX Toggle */}
-            <button
-              onClick={handleToggleSfx}
-              title={sfxActive ? (lang === 'ms' ? 'Matikan Kesan Bunyi' : 'Mute SFX') : (lang === 'ms' ? 'Aktifkan Kesan Bunyi' : 'Unmute SFX')}
-              className={`p-1.5 rounded-lg transition-colors ${
-                sfxActive ? 'bg-indigo-500 text-white shadow-xs' : 'text-slate-500 hover:text-slate-700'
-              }`}
-            >
-              {sfxActive ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-            </button>
-          </div>
+          {/* Interactive Kids Audio & Music Controller */}
+          <AudioController lang={lang} />
 
           {/* Language Switcher */}
           <button

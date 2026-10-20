@@ -9,7 +9,9 @@ import {
   ChevronRight, 
   Compass, 
   CheckCircle,
-  Play
+  Play,
+  Music,
+  Volume2
 } from 'lucide-react';
 import { Language, MainTab, UserProfile } from '../types';
 import { getAvatarById } from '../data/avatarsData';
@@ -28,6 +30,7 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
   onNavigate,
   onOpenMissions,
 }) => {
+  const [isMusicPlaying, setIsMusicPlaying] = React.useState(soundService.getIsBgmPlaying());
   const avatar = getAvatarById(profile.avatarId);
 
   // Next level progress calculation
@@ -130,6 +133,29 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
                   ? 'Selamat datang ke Pulau Misi Mahir 3M. Pilih pulau kegemaran anda untuk mula membaca, menulis dan mengira!'
                   : 'Welcome to the 3M Archipelago. Choose your favorite island to start reading, writing, and math!'}
               </p>
+
+              {/* Cheerful Kids Music Toggle Pill */}
+              <div className="flex items-center gap-2 mt-3 flex-wrap">
+                <button
+                  onClick={() => {
+                    const active = soundService.toggleBgm();
+                    setIsMusicPlaying(active);
+                    if (active) soundService.playPop();
+                  }}
+                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-black transition-all active:scale-95 shadow-sm ${
+                    isMusicPlaying
+                      ? 'bg-amber-400 text-amber-950 ring-2 ring-white/60'
+                      : 'bg-white/25 hover:bg-white/35 text-white backdrop-blur-xs'
+                  }`}
+                >
+                  <Music className={`w-3.5 h-3.5 ${isMusicPlaying ? 'animate-bounce' : ''}`} />
+                  <span>
+                    {isMusicPlaying
+                      ? (lang === 'ms' ? 'Muzik Ceria Sedang Main 🎶' : 'Cheerful BGM Playing 🎶')
+                      : (lang === 'ms' ? 'Pasang Muzik Latar Ceria 🎵' : 'Play Kids Background Music 🎵')}
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
 
